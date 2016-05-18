@@ -10,12 +10,29 @@ ESP8266WebServer server(80);
 
 const int zoneOne = 0;
 const int zoneTwo = 2;
-const int maxTime = 60000 * 30;
+
+const int zoneOneState = 0;
+const int zoneTwoState = 0;
+
+const long maxTime = 60000 * 30;
+
+const long zoneOneTimeout = 0;
+const long zoneTwoTimeout = 0;
+
+void controllZoneOne(state) {
+    zoneOneTimeout = millis();
+}
+
+void controllZoneTwo(state) {
+  
+     zoneTwoTimeout = millis();
+}
 
 void handleRoot() {
   String zone = server.arg("zone");
   String state = server.arg("state");
-  
+  String header = "HTTP/1.1 301 OK\r\nSet-Cookie: ESPSESSIONID=0\r\nLocation: /login\r\nCache-Control: no-cache\r\n\r\n";
+  server.sendContent(header);
   server.send(200, "text/plain", "hello from esp8266!");
 }
 
